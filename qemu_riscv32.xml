@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+        <remote name="rise-gitlab" fetch="https://gitlab.com/riseproject" />
+        <!-- Next to this manifest's own repository -->
+        <remote name="purefunsolutions" fetch="." />
+
+        <include name="common.xml" />
+
+        <!-- Replace common.xml defaults with the current RISC-V working repos -->
+        <remove-project path="linux"         name="linaro-swg/linux.git" />
+        <remove-project path="optee_os"      name="OP-TEE/optee_os.git" />
+
+        <project path="build"                name="OP-TEE_build.git"                remote="purefunsolutions"   revision="refs/heads/qemu-riscv32">
+                <linkfile src="qemu_riscv32.mk" dest="build/Makefile" />
+        </project>
+
+        <!-- OP-TEE with plat-virt's RV32 flavor -->
+        <project path="optee_os"             name="optee_os.git"                    remote="purefunsolutions"   revision="refs/heads/riski5-libero" />
+
+        <!-- RISE's tag plus qemu_rv32_virt_domain.dts -->
+        <project path="linux"                name="linux.git"                       remote="purefunsolutions"   revision="refs/heads/optee-ci-20260817-rv32" clone-depth="1" />
+
+        <!-- RISC-V QEMU platform dependencies -->
+        <!-- RISE's tag plus the OP-TEE dispatcher's RV32 response length fix -->
+        <project path="opensbi"              name="opensbi.git"                     remote="purefunsolutions"   revision="refs/heads/optee-ci-20260817-rv32" clone-depth="1" />
+        <project path="qemu"                 name="qemu/qemu.git"                   revision="refs/tags/v10.0.0" clone-depth="1" />
+        <project path="u-boot"               name="riscv-optee/u-boot.git"          remote="rise-gitlab"        revision="refs/tags/optee-ci-20260817" clone-depth="1" />
+</manifest>
